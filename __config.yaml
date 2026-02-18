@@ -1,0 +1,10 @@
+title: Dionatan Silva
+description: Senior Quant Analyst | PhD Candidate
+theme: jekyll-theme-minimal
+
+# Isso cria a sua Navbar de forma manual e simples
+header_pages:
+  - index.md
+  - professional.md
+  - education.md
+  - research.md
