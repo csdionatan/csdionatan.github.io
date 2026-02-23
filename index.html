@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Dionatan Silva | Quant Portfolio</title>
+
+    <!-- 1. FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- 2. ICONS -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- 3. TAILWIND -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    },
+                    colors: {
+                        stone: {
+                            50: '#fafaf9',
+                            100: '#f5f5f4',
+                            200: '#e7e5e4',
+                            300: '#d6d3d1',
+                            400: '#a8a29e',
+                            500: '#78716c',
+                            600: '#57534e',
+                            700: '#44403c',
+                            800: '#292524',
+                            900: '#1c1917',
+                        },
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- 4. LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+
+    <style>
+        /* OTIMIZAÇÕES DE PERFORMANCE */
+        html,
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #EAEAE5;
+            color: #1C1C1C;
+            overflow-x: hidden;
+            width: 100%;
+            -webkit-font-smoothing: antialiased;
+            overscroll-behavior: none;
+            /* Previne bounce effect */
+        }
+
+        /* SCROLL OTIMIZADO */
+        html {
+            scroll-padding-top: 80px;
+            /* Compensação exata da navbar */
+        }
+
+        /* NAVBAR FIXA E ESTÁVEL */
+        #navbar-main {
+            transition: transform 0.3s ease;
+            will-change: transform;
+        }
+
+        /* UTILS */
+        .bg-grid {
+            background-image:
+                linear-gradient(to right, rgba(0, 0, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 0, 0, 0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 1px;
+            background-color: #1c1917;
+            transition: width 0.2s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* REMOVIDO NOISE PESADO */
+        /* REMOVIDO BLUR EXCESSIVO */
+    </style>
+</head>
+
+<body class="selection:bg-stone-800 selection:text-white">
+
+    <div class="flex flex-col md:flex-row min-h-screen">
+
+        <!-- SIDEBAR FIXA (Esquerda) -->
+        <!-- Reduzida a largura e fixada para otimizar espaço -->
+        <aside
+            class="hidden md:flex w-72 h-screen fixed left-0 top-0 z-40 border-r border-stone-300 bg-[#EAEAE5] flex-col justify-between p-8">
+
+            <div>
+                <div class="mb-4">
+                    <!-- Avatar -->
+                    <div
+                        class="w-40 h-40 rounded-full bg-stone-200 border border-stone-300 mb-4 overflow-hidden relative">
+                        <img src="https://avatars.githubusercontent.com/u/34526352?v=4" alt="Profile"
+                            class="w-full h-full object-cover">
+                    </div>
+                    <h1 class="font-display font-bold text-xl tracking-tight text-stone-900 leading-none mb-1">Dionatan
+                        Silva</h1>
+                    <p class="font-mono text-[10px] uppercase tracking-widest text-stone-500">Quant & PM</p>
+                </div>
+                <p class="text-xs font-light text-stone-600 leading-relaxed mb-6">
+                    Alpha extraction via stochastic calculus & ML.
+                </p>
+            </div>
+
+            <div class="space-y-3">
+                <a href="https://github.com/csdionatan" target="_blank" rel="noopener noreferrer"
+                    class="flex items-center gap-3 text-stone-500 hover:text-stone-900 transition-colors">
+                    <i class="ph ph-github-logo text-lg"></i>
+                    <span class="font-mono text-[10px] uppercase">GitHub</span>
+                </a>
+                <a href="#" class="flex items-center gap-3 text-stone-500 hover:text-stone-900 transition-colors">
+                    <i class="ph ph-linkedin-logo text-lg"></i>
+                    <span class="font-mono text-[10px] uppercase">LinkedIn</span>
+                </a>
+                <div class="pt-4 border-t border-stone-300">
+                    <div class="flex items-center gap-2 text-[10px] font-mono text-stone-400">
+                        <div class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
+                        <span>Systems Normal</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <!-- Adicionado margem esquerda para compensar sidebar fixa (md:ml-72) -->
+        <main class="flex-1 md:ml-72 bg-grid relative w-full">
+
+            <!-- NAVBAR FIXA -->
+            <header id="navbar-main"
+                class="fixed top-0 left-0 w-full md:left-72 md:w-[calc(100%-18rem)] z-50 bg-[#EAEAE5]/95 shadow-sm border-b border-stone-200 h-16 flex items-center px-6 md:px-12 justify-between">
+                <!-- Mobile Only Title -->
+                <div class="md:hidden font-display font-bold text-stone-900">Dionatan Silva</div>
+
+                <nav class="hidden md:flex gap-6 text-[10px] font-mono uppercase tracking-widest text-stone-500">
+                    <a href="#home" class="nav-link text-stone-900">Home</a>
+                    <a href="#philosophy" class="nav-link hover:text-stone-900 transition-colors">Philosophy</a>
+                    <a href="#track-record" class="nav-link hover:text-stone-900 transition-colors">Track Record</a>
+                    <a href="#signals" class="nav-link hover:text-stone-900 transition-colors">Signals</a>
+                    <a href="#projects" class="nav-link hover:text-stone-900 transition-colors">Projects</a>
+                    <a href="#strategies" class="nav-link hover:text-stone-900 transition-colors">Strategies</a>
+                </nav>
+
+                <a href="resume.pdf" download
+                    class="px-4 py-1.5 bg-stone-900 text-white rounded-sm font-mono text-[10px] uppercase tracking-widest hover:bg-stone-700 transition-colors">
+                    Download CV
+                </a>
+            </header>
+
+            <!-- Preenchimento para compensar Navbar Fixa -->
+            <div class="h-16"></div>
+
+            <!-- HERO SECTION COMPACTADA -->
+            <!-- min-h reduzido para evitar rolagem excessiva sem motivo -->
+            <section id="home"
+                class="px-8 md:px-20 py-20 flex flex-col justify-center relative border-b border-stone-300">
+                <div class="max-w-3xl z-10">
+                    <div class="inline-block px-2 py-1 bg-white border border-stone-200 rounded-full mb-4">
+                        <span class="text-[10px] font-mono text-stone-500 uppercase">v2.4 Live Algorithm</span>
+                    </div>
+
+                    <h1
+                        class="font-display font-bold text-5xl md:text-7xl text-stone-900 tracking-tighter leading-[1.1] mb-6">
+                        Navigating Uncertainty<br>
+                        <span class="text-stone-400">With Precision.</span>
+                    </h1>
+
+                    <p class="text-lg text-stone-600 font-light max-w-xl leading-relaxed mb-8">
+                        Bridging complex mathematical models with actionable financial insights.
+                    </p>
+
+                    <div class="flex gap-4">
+                        <button
+                            class="px-6 py-3 bg-stone-900 text-white text-xs font-mono uppercase tracking-widest hover:translate-y-px transition-transform">
+                            View Performance
+                        </button>
+                        <button
+                            class="px-6 py-3 border border-stone-300 text-stone-900 text-xs font-mono uppercase tracking-widest hover:bg-white transition-colors">
+                            Methodology
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Gráfico SVG Abstrato Leve -->
+                <div
+                    class="absolute right-0 top-1/2 -translate-y-1/2 -z-10 opacity-10 pointer-events-none md:block hidden">
+                    <svg width="400" height="400" viewBox="0 0 200 200">
+                        <path fill="none" stroke="currentColor" stroke-width="1" d="M0,100 Q50,0 100,100 T200,100" />
+                        <path fill="none" stroke="currentColor" stroke-width="1" d="M0,120 Q50,20 100,120 T200,120"
+                            style="opacity:0.5" />
+                    </svg>
+                </div>
+            </section>
+
+            <!-- STATS RAPIDAS -->
+            <div class="border-b border-stone-300 bg-stone-100 py-6 px-8 flex flex-wrap justify-around gap-8">
+                <div class="text-center">
+                    <span class="block text-2xl font-display font-bold text-stone-900">2.45</span>
+                    <span class="text-[10px] font-mono text-stone-500 uppercase">Sharpe Ratio</span>
+                </div>
+                <div class="text-center">
+                    <span class="block text-2xl font-display font-bold text-stone-900">18.2%</span>
+                    <span class="text-[10px] font-mono text-stone-500 uppercase">Ann. Return</span>
+                </div>
+                <div class="text-center">
+                    <span class="block text-2xl font-display font-bold text-stone-900">$15M+</span>
+                    <span class="text-[10px] font-mono text-stone-500 uppercase">AUM Handled</span>
+                </div>
+                <div class="text-center">
+                    <span class="block text-2xl font-display font-bold text-stone-900">Low</span>
+                    <span class="text-[10px] font-mono text-stone-500 uppercase">Latency</span>
+                </div>
+            </div>
+
+            <!-- PHILOSOPHY -->
+            <section id="philosophy" class="px-8 md:px-20 py-20 border-b border-stone-300">
+                <div class="grid md:grid-cols-12 gap-12">
+                    <div class="md:col-span-4">
+                        <span class="text-[10px] font-mono uppercase text-stone-400 mb-2 block">01 / Philosophy</span>
+                        <h2 class="text-3xl font-display font-medium">Data Driven<br>Decisions.</h2>
+                    </div>
+                    <div class="md:col-span-8 space-y-6">
+                        <p class="text-stone-600 font-light leading-relaxed">
+                            Markets are noisy. My approach uses rigorous statistical testing (Monte Carlo, Bootstrap) to
+                            ensure strategies are robust, not just lucky.
+                        </p>
+                        <ul class="grid md:grid-cols-2 gap-4">
+                            <li class="flex items-center gap-3 p-4 border border-stone-200 bg-white">
+                                <i class="ph ph-chart-line-up text-xl"></i>
+                                <span class="text-sm font-medium">Alpha Generation</span>
+                            </li>
+                            <li class="flex items-center gap-3 p-4 border border-stone-200 bg-white">
+                                <i class="ph ph-shield-check text-xl"></i>
+                                <span class="text-sm font-medium">Risk Parity</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TRACK RECORD -->
+            <section id="track-record" class="px-8 md:px-20 py-20 border-b border-stone-300 bg-stone-50">
+                <span class="text-[10px] font-mono uppercase text-stone-400 mb-6 block">02 / Performance</span>
+                <div class="relative h-64 bg-white border border-stone-200 w-full flex items-center justify-center">
+                    <p class="text-sm text-stone-400 italic font-mono">[ Interactive Equity Curve Placeholder ]</p>
+                    <!-- Simple CSS Line simulating chart -->
+                    <div class="absolute bottom-10 left-10 right-10 top-20 border-l border-b border-stone-100">
+                        <svg class="w-full h-full overflow-visible" preserveAspectRatio="none">
+                            <path d="M0,150 C50,140 100,100 150,110 S250,50 300,40 S400,10 500,5" fill="none"
+                                stroke="#1c1917" stroke-width="2" vector-effect="non-scaling-stroke" />
+                        </svg>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SIGNALS -->
+            <section id="signals" class="px-8 md:px-20 py-20 border-b border-stone-300">
+                <span class="text-[10px] font-mono uppercase text-stone-400 mb-6 block">03 / Live Signals</span>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="flex justify-between items-center bg-white p-6 border border-stone-200 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span class="font-bold text-sm font-mono">ES_F</span>
+                        </div>
+                        <span
+                            class="text-xs font-mono bg-emerald-100 text-emerald-800 px-3 py-1.5 rounded-sm font-bold">LONG
+                            PREDICTION</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-white p-6 border border-stone-200 shadow-sm">
+                        <div class="flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                            <span class="font-bold text-sm font-mono">GC_F</span>
+                        </div>
+                        <span
+                            class="text-xs font-mono bg-amber-100 text-amber-800 px-3 py-1.5 rounded-sm font-bold">NEUTRAL</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- PROJECTS CAROUSEL -->
+            <section id="projects" class="py-20 border-b border-stone-300 md:border-none w-full overflow-hidden">
+                <div class="px-8 md:px-20 mb-10">
+                    <span class="text-[10px] font-mono uppercase text-stone-400 block mb-6">04 / Projects Catalog</span>
+                    <h2 class="text-4xl md:text-5xl font-display font-medium tracking-tight">Research & Dev</h2>
+                </div>
+
+                <!-- Horizontal scroll area -->
+                <div class="flex overflow-x-auto gap-6 px-8 md:px-20 pb-12 snap-x snap-mandatory scrollbar-hide"
+                    style="scrollbar-width: none;">
+
+                    <!-- Item 1: Option Price -->
+                    <div onclick="openProject('pages/option-price.html')"
+                        class="min-w-[280px] md:min-w-[340px] aspect-[4/3] bg-stone-900 group relative cursor-pointer snap-start overflow-hidden flex-shrink-0 border border-stone-800 rounded-sm">
+                        <div class="absolute inset-0 bg-stone-800 flex items-center justify-center">
+                            <i class="ph ph-chart-polar text-6xl text-stone-700 absolute z-0"></i>
+                            <img src="Images/option_pricer.jpeg" alt="Option Price Cover"
+                                class="w-full h-full object-cover relative z-10" onerror="this.style.display='none'">
+                        </div>
+                        <div
+                            class="absolute inset-0 z-20 bg-stone-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3
+                                class="text-white font-display text-xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform">
+                                Option Price</h3>
+                            <p
+                                class="text-stone-400 text-[10px] font-mono uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform delay-75">
+                                Click to view</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Fixed Income Charts -->
+                    <div onclick="openProject('pages/fixed-income-charts.html')"
+                        class="min-w-[280px] md:min-w-[340px] aspect-[4/3] bg-stone-900 group relative cursor-pointer snap-start overflow-hidden flex-shrink-0 border border-stone-800 rounded-sm">
+                        <div class="absolute inset-0 bg-stone-800 flex items-center justify-center">
+                            <i class="ph ph-chart-line-up text-6xl text-stone-700"></i>
+                        </div>
+                        <div
+                            class="absolute inset-0 z-20 bg-stone-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3
+                                class="text-white font-display text-xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform">
+                                Fixed Income Charts</h3>
+                            <p
+                                class="text-stone-400 text-[10px] font-mono uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform delay-75">
+                                Click to view</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 3: ML Factor Zoo -->
+                    <div onclick="openProject('pages/ml-factor-zoo.html')"
+                        class="min-w-[280px] md:min-w-[340px] aspect-[4/3] bg-stone-900 group relative cursor-pointer snap-start overflow-hidden flex-shrink-0 border border-stone-800 rounded-sm">
+                        <div class="absolute inset-0 bg-stone-800 flex items-center justify-center">
+                            <i class="ph ph-brain text-6xl text-stone-700"></i>
+                        </div>
+                        <div
+                            class="absolute inset-0 z-20 bg-stone-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3
+                                class="text-white font-display text-xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform">
+                                ML Factor Zoo</h3>
+                            <p
+                                class="text-stone-400 text-[10px] font-mono uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform delay-75">
+                                Click to view</p>
+                        </div>
+                    </div>
+
+                    <!-- Item 4: Event-Driven Backtester -->
+                    <div onclick="openProject('pages/event-driven-backtester.html')"
+                        class="min-w-[280px] md:min-w-[340px] aspect-[4/3] bg-stone-900 group relative cursor-pointer snap-start overflow-hidden flex-shrink-0 border border-stone-800 rounded-sm">
+                        <div class="absolute inset-0 bg-stone-800 flex items-center justify-center">
+                            <i class="ph ph-code text-6xl text-stone-700"></i>
+                        </div>
+                        <div
+                            class="absolute inset-0 z-20 bg-stone-900/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <h3
+                                class="text-white font-display text-xl mb-1 translate-y-4 group-hover:translate-y-0 transition-transform">
+                                Event-Driven Backtester</h3>
+                            <p
+                                class="text-stone-400 text-[10px] font-mono uppercase tracking-widest translate-y-4 group-hover:translate-y-0 transition-transform delay-75">
+                                Click to view</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-8 md:px-20 mt-4">
+                    <button onclick="openProject('pages/projects.html')"
+                        class="px-8 py-4 bg-stone-900 text-white text-xs font-mono uppercase tracking-widest hover:bg-stone-700 transition-colors shadow-lg">
+                        See More Projects
+                    </button>
+                </div>
+            </section>
+
+            <!-- STRATEGIES -->
+            <section id="strategies" class="px-8 md:px-20 py-20 bg-stone-50">
+                <span class="text-[10px] font-mono uppercase text-stone-400 mb-6 block">05 / Strategies</span>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="p-6 bg-white border border-stone-200 hover:border-stone-900 transition-colors">
+                        <h4 class="font-bold mb-2 text-sm">Stat Arb</h4>
+                        <p class="text-xs text-stone-500 leading-relaxed">Mean reversion on cointegrated pairs.</p>
+                    </div>
+                    <div class="p-6 bg-white border border-stone-200 hover:border-stone-900 transition-colors">
+                        <h4 class="font-bold mb-2 text-sm">Global Macro</h4>
+                        <p class="text-xs text-stone-500 leading-relaxed">Trend following across futures.</p>
+                    </div>
+                    <div class="p-6 bg-white border border-stone-200 hover:border-stone-900 transition-colors">
+                        <h4 class="font-bold mb-2 text-sm">Volatility</h4>
+                        <p class="text-xs text-stone-500 leading-relaxed">Short vol premium harvesting.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FOOTER -->
+            <footer class="bg-stone-900 text-stone-400 py-12 px-8 md:px-20 text-center md:text-left">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-6">
+                    <div>
+                        <h3 class="text-white font-display font-bold text-xl">Dionatan Silva</h3>
+                        <p class="text-xs mt-2">Quantitative Systems &copy; 2026</p>
+                    </div>
+                    <div class="flex gap-6 text-xs font-mono uppercase">
+                        <a href="#" class="hover:text-white">Email</a>
+                        <a href="https://github.com/csdionatan" target="_blank" rel="noopener noreferrer"
+                            class="hover:text-white">Github</a>
+                    </div>
+                </div>
+            </footer>
+            <!-- Iframe Overlay for Projects -->
+            <div id="project-overlay"
+                class="hidden fixed top-16 left-0 w-full md:left-72 md:w-[calc(100%-18rem)] h-[calc(100vh-4rem)] z-40 bg-[#EAEAE5] flex-col shadow-xl origin-right transition-transform duration-300">
+                <div
+                    class="h-14 border-b border-stone-300 flex items-center justify-between px-6 bg-[#EAEAE5] shrink-0">
+                    <span class="font-mono text-[10px] text-stone-500 uppercase">Project Viewer</span>
+                    <button onclick="closeProject()"
+                        class="text-stone-900 border border-stone-300 hover:bg-white px-4 py-1.5 font-mono text-[10px] uppercase flex items-center gap-2 transition-colors">
+                        <i class="ph ph-x text-sm"></i> Close
+                    </button>
+                </div>
+                <!-- Sandbox can be tuned, allowing scripts -->
+                <iframe id="project-frame" src="" class="w-full h-full bg-[#EAEAE5] border-none flex-1"></iframe>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- OTIMIZAÇÃO DE JS -->
+    <script>
+        // 1. CONFIGURAÇÃO LEVE DO LENIS (PERFORMANCE)
+        const lenis = new Lenis({
+            duration: 0.6, // Mais rápido
+            easing: (t) => t, // Linear para resposta instantânea (menos "gelatinoso")
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+        });
+
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // 2. SCROLL TO ANCHOR FIX (Layout Shift Prevention & Close Overlay)
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                closeProject(); // Fecha overlay se estiver aberto
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    lenis.scrollTo(target, { offset: -70 }); // Offset ajustado para navbar fixa
+                }
+            });
+        });
+
+        // Overlay Project View Methods
+        function openProject(url) {
+            document.getElementById('project-frame').src = url;
+            const overlay = document.getElementById('project-overlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            lenis.stop(); // Previne scroll no fundo enquanto overlay est aberto
+        }
+
+        function closeProject() {
+            const overlay = document.getElementById('project-overlay');
+            if (overlay.classList.contains('flex')) {
+                overlay.classList.remove('flex');
+                overlay.classList.add('hidden');
+                document.getElementById('project-frame').src = '';
+                lenis.start(); // Retoma o scroll da pagina de fundo
+            }
+        }
+
+        // 3. ANIMAÇÕES SIMPLES (GSAP OTIMIZADO)
+        // Apenas fade-in simples, sem scrub pesado
+        gsap.registerPlugin(ScrollTrigger);
+
+        const sections = document.querySelectorAll('section, footer');
+        sections.forEach(sec => {
+            gsap.fromTo(sec,
+                { opacity: 0, y: 20 },
+                {
+                    opacity: 1,
+                    y: 0,
+                    duration: 0.8,
+                    ease: "power2.out",
+                    scrollTrigger: {
+                        trigger: sec,
+                        start: "top 90%", // Anima quando entra na tela
+                        toggleActions: "play none none none" // Toca uma vez
+                    }
+                }
+            );
+        });
+    </script>
+</body>
+
+</html>

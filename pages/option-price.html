@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Option Price Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-[#EAEAE5] text-[#1c1917] p-8 md:p-20 font-sans">
+    <h1 class="text-4xl md:text-5xl font-display font-medium mb-6">Option Price Analytics</h1>
+    <p class="font-light text-stone-600 max-w-2xl leading-relaxed mb-6">
+        Interactive dashboard for pricing options in real-time. This module applies the Black-Scholes-Merton model and
+        tracks implied volatility surfaces for major S&P 500 equities.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-4 mb-10">
+        <a href="https://github.com/csdionatan/BSoptionPricing" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-stone-500 hover:text-stone-900 transition-colors border border-stone-300 px-6 py-3 bg-white hover:bg-stone-50 rounded-sm">
+            <i class="ph ph-github-logo text-base"></i> View Repository
+        </a>
+        <a href="https://csdionatan-bsoptionpricing.streamlit.app/" target="_blank" rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 text-[11px] font-mono uppercase tracking-widest text-stone-900 hover:text-white transition-colors border border-stone-900 px-6 py-3 bg-transparent hover:bg-stone-900 rounded-sm">
+            <i class="ph ph-arrow-up-right text-base"></i> Access Project Dashboard
+        </a>
+    </div>
+
+    <div class="max-w-4xl border border-stone-300 rounded-sm overflow-hidden bg-stone-900 shadow-xl">
+        <img src="../Images/option_pricer.jpeg" alt="Option Price Dashboard Image"
+            class="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity">
+    </div>
+</body>
+
+</html>
